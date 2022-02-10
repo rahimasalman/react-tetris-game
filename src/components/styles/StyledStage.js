@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const StyledStage = styled.div`
   display: grid;
   grid-template-rows: repeat(
@@ -13,4 +12,4 @@ export const StyledStage = styled.div`
   width: 100%;
   max-width: 25vw;
   background:#111;
-`
+`;

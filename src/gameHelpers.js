@@ -7,8 +7,8 @@ export const createStage = () =>
     );
 
 export const checkCollision = (player, stage, {x: moveX, y: moveY}) => {
-    for (let y=0; y <player.tetromino.length; y += 1){
-        for (let x=0; x <player.tetromino[y].length; x += 1){
+    for (let y=0; y < player.tetromino.length; y += 1){
+        for (let x=0; x < player.tetromino[y].length; x += 1){
             // firstly, u need to check if you're on an actual cell
             if(player.tetromino[y][x] !==0 ) {
                 if (

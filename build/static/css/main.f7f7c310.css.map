@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.f7f7c310.css","mappings":"AAAA,KACE,QACF,CAEA,WACE,iBAAoB,CACpB,2EACF","sources":["index.css"],"sourcesContent":["body {\r\n  margin: 0;\r\n}\r\n\r\n@font-face {\r\n  font-family: 'Pixel';\r\n  src: url('font/Pixel-LCD-7.woff') format('woff');\r\n}"],"names":[],"sourceRoot":""}

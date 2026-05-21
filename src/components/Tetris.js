@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { createStage, checkCollision } from '../gameHelpers';
 
@@ -19,6 +19,8 @@ import StartButton from './StartButton';
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
+
+    const touchStart = useRef(null);
 
     const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
@@ -91,12 +93,44 @@ const Tetris = () => {
         }
     };
 
+    const handleTouchStart = (e) => {
+        if (e.target.tagName === 'BUTTON') return;
+        const touch = e.touches[0];
+        touchStart.current = { x: touch.clientX, y: touch.clientY };
+    };
+
+    const handleTouchEnd = (e) => {
+        if (!touchStart.current || gameOver) return;
+        if (e.target.tagName === 'BUTTON') return;
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - touchStart.current.x;
+        const dy = touch.clientY - touchStart.current.y;
+        const absDx = Math.abs(dx);
+        const absDy = Math.abs(dy);
+
+        if (absDx < 10 && absDy < 10) {
+            playerRotate(stage, 1);
+        } else if (absDx > absDy && absDx > 20) {
+            movePlayer(dx > 0 ? 1 : -1);
+        } else if (dy > 20) {
+            dropPlayer();
+        }
+        touchStart.current = null;
+    };
+
     useInterval(() => {
         drop();
     }, dropTime);
 
     return (
-        <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
+        <StyledTetrisWrapper
+            role="button"
+            tabIndex="0"
+            onKeyDown={e => move(e)}
+            onKeyUp={keyUp}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+        >
             <StyledTetris>
                 <Stage stage={stage} />
                 <aside>
